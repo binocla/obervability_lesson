@@ -37,11 +37,9 @@ public class MainResource {
     @POST
     @Path("/add")
     public Uni<Response> create(Item i) {
-        if (i == null || i.id == null) {
-            throw new WebApplicationException("Id was invalid", 422);
-        }
         return Panache.withTransaction(i::persist)
-                .replaceWith(Response.ok(i).status(Response.Status.CREATED)::build);
+                .replaceWith(Response.ok(i).status(Response.Status.CREATED)::build)
+                .onFailure().recoverWithItem(Response.status(Response.Status.BAD_REQUEST)::build);
     }
 
     @GET
