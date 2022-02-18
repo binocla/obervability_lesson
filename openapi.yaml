@@ -1,0 +1,81 @@
+---
+openapi: 3.0.3
+servers:
+  - url: http://localhost:8080
+info:
+  title: Observability Service
+  description: Includes health checks, tracing, metrics
+  version: 1.0-SNAPSHOT
+paths:
+  /trace:
+    get:
+      tags:
+        - Main Resource
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                - id: 1
+                  name: "Blabla"
+  /trace/add:
+    post:
+      description: Persists an entity in DB
+      tags:
+        - Main Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        "201":
+          description: CREATED
+        "404":
+          description: BAD_REQUEST
+  /trace/generate:
+    get:
+      description: Generated random entity and persists it into DB
+      tags:
+        - Main Resource
+      responses:
+        "201":
+          description: CREATED
+  /trace/list:
+    get:
+      tags:
+        - Main Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+      example:
+        - id: 1
+          name: iPhone
+        - id: 2
+          name: Samsung
+        - id: 3
+          name: Blabla
+
