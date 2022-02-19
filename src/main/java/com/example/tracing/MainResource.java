@@ -64,9 +64,9 @@ public class MainResource {
         return Item.listAll();
     }
 
-    @Gauge(name = "largestNumber",
+    @Gauge(name = "Number",
             unit = MetricUnits.NONE,
-            description = "The largest number which was randomly generated")
+            description = "Number which was randomly generated")
     Integer generator() {
         return new Random().nextInt();
     }
